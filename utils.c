@@ -6,192 +6,179 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2016/12/22 15:14:28 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/02/27 14:53:50 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *s)
-{
-	while (*s++)
-		ft_putchar(*(s - 1));
-}
-
-
-int		ft_is_input(int argc)
-{
-	if (argc == 2)
-		return (1);
-	return (0);
-}
-
-
-int		ft_open_file(char *filename)
-{
-	int		fd;	
-
-	fd = open(filename, O_RDONLY);
-	if (fd != -1)
-		return (fd);	
-	else
-		return (0);	
-}
-/////////////////////////////TABLE UTILS
-void	ft_apply_on_file(char *filename, int (*f)(int))
-{
-	int	fd;
-
-	fd = 0;
-	fd = ft_open_file(filename);
-	f(fd);
-	close(fd);
-}
-
-void	ft_print_table(char **table, int x, int y)
+void	ft_print_table(char ***table, int n)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (j < y)
+
+	while (j < 4)
 	{
-		while (i < x)
+		while (i < 4)
 		{
-			ft_putchar(*(*(table + j) + i));
-			i++;	
+			ft_putchar(table[n][j][i]);
+			i++;
 		}
+		ft_putchar('\n');
+		i = 0;
 		j++;
-		i = 0;	
 	}
+	ft_putchar('\n');
 }
 
-char	**ft_alloc_table(int x, int y)
+char	***ft_alloc_table(char ***table, int size)
 {
-	char	**table;
+	int		x;
+	int		y;
+	int		n;
+
+	n = size / 5;
+	x = 0;
+	y = 0;
+	if (!(table = (char***)malloc(sizeof(char**) * (n + 1))))
+		return (NULL);
+	while ((n--))
+	{
+			table[n] = (char **)malloc(sizeof(char**) * 5);
+		while (y < 4)
+		{
+			table[n][y] = (char *)malloc(sizeof(char*) * 5);
+			x = 0;
+			y++;
+		}
+		y = 0;
+	}
+	return (table);
+}
+
+char	***ft_fill_table(char ***table, char *filename)
+{
+	int		x;
+	int		y;
 	int		i;
+	char	buf[1];
+	int		fd;
+
+	x = 0;
+	y = 0;
+	i = 0;
+	fd = ft_open_file(filename);
+	while (read(fd, buf, 1))
+	{
+		x = (buf[0] == '\n') ? 0 : x;
+		i = (buf[0] == '\n') ? 0 : i;
+		y = (buf[0] == '\n') ? y + 1 : y;
+		i = (buf[0] == ' ') ? i + 1 : i;
+		x = (buf[0] == ' ') ? 0 : x;
+		if (buf[0] != ' ' && buf[0] != '\n')
+		{
+			table[i][y][x] = buf[0];
+			x++;
+		}
+	}
+	return (table);
+}
+
+unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	buf[1];
+	int		fd;
 
 	i = 0;
-	table = NULL;
-	if (!(table = (char**)malloc(sizeof(char*) * (y + 1))))
-		return (NULL);
-	while (i < y)
+	j = 0;
+	k = 0;
+	fd = ft_open_file(filename);
+	bin = (unsigned char**)malloc(sizeof(unsigned char*) * (nb + 1));
+	
+	while ((nb--))
 	{
-		if (!(*(table + i) = (char*)malloc(sizeof(char) * (x + 1))))
-			return (NULL);
+		bin[nb] = (unsigned char*)malloc(sizeof(unsigned char) * (18 + 1));
+		bin[nb][0] = '0';
+		bin[nb][1] = 'b';
+	}
+
+	while (read(fd, buf, 1))
+	{
+		if (buf[0] == ' ')
+		{
+			j = 2;
+			i++;
+		}
+		else if (buf[0] == '\n')
+		{
+			i = 0;
+			j = 2;
+			k += 4;
+		}
+		if (buf[0] != '\n' && buf[0] != ' ')
+		{
+			bin[i][k + j] = (buf[0] == '.') ? '0' : '1';
+			j++;
+		}
+	}
+	return (bin);
+}
+
+void	ft_print_bin(unsigned char **bin, int nb)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < nb)
+	{
+		printf("tetri %d \n", i);
+		printf("%c%c\n", bin[i][0], bin[i][1]);
+		while (j < 18)
+		{
+			printf("%c", bin[i][j + 2]);
+			j++;
+			if (j % 4 == 0)
+				printf("\n");
+		}
+		j = 0;
 		i++;
+		printf("\n");
 	}
-	return (table);
 }
 
-char	**ft_fill_table(char **table, char *filename) // if the file is not valid risk of segfault ...
-{
-	int		y;
-	int		x;
-	int		n;
-	char	*buf;
-	int		fd;
-
-	buf = malloc(1);
-	fd = ft_open_file(filename);
-	n = 0;
-	y = 0;
-	x = 0;
-	while ((n = read(fd, buf, 1)))
-	{
-		if (buf[0] == '\n')
-		{
-			y++;
-			x = 0;
-		}
-		*(*(table + y) + x) = *buf;
-		x++;
-	}
-	close (fd);
-	return (table);
-}
-
-char	**ft_file_to_table(char *filename)
+int		ft_size(char *filename, int size[]) //something goes wrong here ..
 {
 	int		fd;
 	char	buf[1];
-	int		x;
-	int		y;
-	char	**res;
+	int		last;
 
-	x = 0;
-	y = 0;
-	res = NULL;
 	fd = ft_open_file(filename);
-	while (read(fd, buf, 1) && buf[0] != '\n')
+	last = -1;
+
+	while (read(fd, buf, 1))
 	{
+		size[0] += 1;
 		if (buf[0] == '\n')
 		{
-			y++;
+			size[1] += 1;
+			last = (last == size[0] || last == -1) ? size[0] : last;
+			size[0] = (last == size[0] || last == -1) ? size[0] : size[0];
+			if (!(last == size[0] || last == -1))
+				return (0);	
 		}
-		y = 4;
-		x++;
-	}
-	close(fd);
-	res = ft_alloc_table(x, y);
-	ft_fill_table(res, filename);
-	ft_print_table(res, x, y);
-	return (res);
-}
-
-
-/////////////////////////////CHECK UTILS
-
-int		ft_is_valid(char **table, int x, int y)
-{
-
-
-	return (1);
-}
-
-int		ft_check_nb_tetri(int fd) // to recode
-{
-	size_t n;
-	char	buf[1];
-	int		x;
-	int		y;
-
-	n = 0;
-	x = 0;
-	y = 0;
-	while ((n = read(fd, buf, 1)))
-	{
-		if (buf[0] == '\n')
-			y++;
-		else if (buf[0] == ' ')
-			x++;
-	}
-	printf("x %d y %d", x, y);
-	return (1);
-}
-
-
-
-
-int		ft_check_file(int fd)
-{
-	size_t n;
-	char	buf[1];
-	int		x;
-	int		y;
-
-	n = 0;
-	x = 0;
-	y = 0;
-	while ((n = read(fd, buf, 1)))
-	{
-		if (buf[0] != ' ' && buf[0] != '.' && buf[0] != '#' && buf[0] != '\n')
+		if (buf[0] != ' ' && buf[0] != '\n' && buf[0] != '.' && buf[0] != '#')
 			return (0);
 	}
+	size[0] = last;
+	close(fd);
 	return (1);
 }
+
+
 
