@@ -6,9 +6,11 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/02/28 12:25:15 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/02/28 16:43:42 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// 3D table with char value
 
 void	ft_print_table(char ***table, int n)
 {
@@ -85,6 +87,8 @@ char	***ft_fill_table(char ***table, char *filename)
 	return (table);
 }
 
+// 2D table with binary value
+
 unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb)
 {
 	int		i;
@@ -151,6 +155,8 @@ void	ft_print_bin(unsigned char **bin, int nb)
 		printf("\n");
 	}
 }
+
+//Size of the file and some check buf there is some bug here
 
 int		ft_size(char *filename, int size[]) //something goes wrong here ..
 {
