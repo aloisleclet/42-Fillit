@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/02/27 14:53:50 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/02/28 12:25:15 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,4 @@ int		ft_size(char *filename, int size[]) //something goes wrong here ..
 	close(fd);
 	return (1);
 }
-
-
 
