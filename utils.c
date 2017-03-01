@@ -6,13 +6,13 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/02/28 16:43:42 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/01 10:24:35 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// 3D table with char value
+// print tetri from table and n 
 
-void	ft_print_table(char ***table, int n)
+void	ft_print_tetri_table(char ***table, int n)
 {
 	int		i;
 	int		j;
@@ -34,13 +34,70 @@ void	ft_print_table(char ***table, int n)
 	ft_putchar('\n');
 }
 
-char	***ft_alloc_table(char ***table, int size)
+//print tetri from pos
+
+void	ft_print_tetri_pos(int pos[4][2])
 {
 	int		x;
 	int		y;
-	int		n;
 
-	n = size / 5;
+	x = 0;
+	y = 0;
+
+	while (y < 4)
+	{
+		while (x < 4)
+		{
+			if (pos[0][0] == x && pos[0][1] == y)
+				printf("#");
+			else if (pos[1][0] == x && pos[1][1] == y)
+				printf("#");
+			else if (pos[2][0] == x && pos[2][1] == y)
+				printf("#");
+			else if (pos[3][0] == x && pos[3][1] == y)
+				printf("#");
+			else
+				printf(".");
+			x++;
+		}
+		printf("\n");
+		x = 0;
+		y++;	
+	}
+}
+
+//print tetri from bin
+
+void	ft_print_bin(unsigned char **bin, int nb)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < nb)
+	{
+		printf("tetri %d \n", i);
+		printf("%c%c\n", bin[i][0], bin[i][1]);
+		while (j < 18)
+		{
+			printf("%c", bin[i][j + 2]);
+			j++;
+			if (j % 4 == 0)
+				printf("\n");
+		}
+		j = 0;
+		i++;
+		printf("\n");
+	}
+}
+
+
+char	***ft_alloc_table(char ***table, int n)
+{
+	int		x;
+	int		y;
+
 	x = 0;
 	y = 0;
 	if (!(table = (char***)malloc(sizeof(char**) * (n + 1))))
@@ -132,29 +189,6 @@ unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb
 	return (bin);
 }
 
-void	ft_print_bin(unsigned char **bin, int nb)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (i < nb)
-	{
-		printf("tetri %d \n", i);
-		printf("%c%c\n", bin[i][0], bin[i][1]);
-		while (j < 18)
-		{
-			printf("%c", bin[i][j + 2]);
-			j++;
-			if (j % 4 == 0)
-				printf("\n");
-		}
-		j = 0;
-		i++;
-		printf("\n");
-	}
-}
 
 //Size of the file and some check buf there is some bug here
 
