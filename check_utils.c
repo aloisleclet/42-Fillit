@@ -5,275 +5,91 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/23 14:20:36 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/01 14:54:06 by aleclet          ###   ########.fr       */
+/*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
+/*   Updated: 2017/03/02 11:50:23 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//check correct tetris
 
-void	ft_read_pos(char **tetri, int pos[4][2])
+void		set_translation(int x, int y, int translate[2])
 {
-	int		x;
-	int		y;
+	translate[0] = x;// x
+	translate[1] = y;// y
+}
+
+void		map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4])
+{
 	int		i;
+	int		j;
+	int		n;
+	int		translate[2];
 
-	x = 0;
-	y = 0;
 	i = 0;
-
-	while (y < 4)
+	j = 0;
+	n = 0;
+	while (j < 4)
 	{
-		while (x < 4)
+		while (i < 4)
 		{
-			if (tetri[y][x] == '#')
+			if (map[j][i] == '#')
 			{
-				pos[i][0] = x;
-				pos[i][1] = y;
-				i++;
+				if (n == 0)
+					set_translation(i, j, translate);
+				pos_x[n] = i - translate[0];
+				pos_y[n] = j - translate[1];
+				n++;
 			}
-			x++;
+			i++;
 		}
-		x = 0;
-		y++;	
+		i = 0;
+		j++;
 	}
 }
 
-//check if all case of tetri is in contact with an other
-
-//		if ((pos[0][1] == pos[1][1]) && (pos[2][1] == pos[3][1]) && (pos[0][0] == pos[2][0]) && (pos[1][0] == pos[3][0]))
-
-//####
-
-int		ft_check_a(int pos[4][2])
-{
-	if ((pos[0][1] == pos[1][1]) && (pos[0][1] == pos[2][1])  && (pos[0][1]== pos[3][1]))
-	{
-		printf("horizontal bar\n");		
-		return (1);
-	}
-	return (0);
-}
-
-//#
-//#
-//#
-//#
-
-int		ft_check_b(int pos[4][2])
-{
-	if (pos[0][0] == pos[1][0] && pos[0][0] == pos[2][0]  && pos[0][0]== pos[3][0])
-		{
-			printf("vertical bar\n");
-			return (1);
-		}
-	return (0);
-}
-//##
-//##
-
-int		ft_check_c(int pos[4][2])
-{
-	if (pos[0][1] == pos[1][1] && pos[2][1] == pos[3][1] && pos[0][0] == pos[2][0] && pos[1][0] == pos[3][0] && (pos[0][0] + 1) == pos[1][0])
-	{
-		printf("square\n");
-		return (1);
-	}
-	return (0);
-}
-
-//##
-// ##
-
-int		ft_check_d(int pos[4][2])
-{
-		if ((pos[0][1] == pos[1][1]) && (pos[2][1] == pos[3][1]) && (pos[0][0] == (pos[2][0] - 1)))
-		{
-			printf("stair case top left\n");
-			return (1);
-		}
-	return (0);
-}
-
-// ##
-//##
-
-int		ft_check_e(int pos[4][2])
-{
-		if ((pos[0][1] == pos[1][1]) && (pos[2][1] == pos[3][1]) && (pos[0][0] == (pos[2][0] + 1)))
-		{
-			printf("stair case top right\n");
-			return (1);
-		}
-		return (0);
-}
-
-// #
-//##
-//#
-
-int		ft_check_f(int pos[4][2])
-{
-		if (pos[0][0] == (pos[1][0] + 1) && (pos[1][1] == pos[2][1]) && (pos[1][0] + 1) == pos[2][0] && (pos[3][0] == (pos[0][0] - 1)))
-		{
-			printf("stair case up right\n");
-			return (1);
-		}
-		return (0);
-}
-
-//#
-//##
-// #
-
-int		ft_check_g(int pos[4][2])
-{
-		if (pos[0][0] == (pos[1][0] - 1) && (pos[1][1] == pos[2][1]) && (pos[1][0] + 1) == pos[2][0] && (pos[3][0] == (pos[0][0] + 1)))
-		{
-			printf("stair case up left\n");
-			return (1);
-		}
-		return (0);
-}
-
-
-//##
-//#
-//#
-
-int		ft_check_h(int pos[4][2])
-{
-		printf ("%d %d %d %d\n", pos[0][0], pos[1][0], pos[2][0], pos[3][0]);
-		printf ("%d %d %d %d\n", pos[0][1], pos[1][1], pos[2][1], pos[3][1]);
-
-		if ((pos[0][0] + 1) == pos[1][0] && pos[2][0] == pos[0][0] && pos[3][0] == pos[0][0])
-		{
-			printf("pick right\n");
-			return (1);
-		}
-		return (0);
-}
-
-
-//##
-// #
-// #
-
-int		ft_check_i(int pos[4][2])
-{
-		if ((pos[0][0] + 1) == pos[1][0] && pos[2][0] == pos[1][0] && pos[3][0] == pos[1][0])
-		{
-			printf("pick left\n");
-			return (1);
-		}
-		return (0);
-}
-
-//###
-//#
-
-
-
-//check all
-
-int		ft_check_all(char ***table)
+int		check_type(int pos_x[4], int pos_y[4])
 {
 	int		i;
-	int		pos[4][2];
+	int		max_x;
+	int		max_y;
 
-	i = 0;
-
-	while (table[i])
+	max_x = 0;
+	max_y = 0;
+	i = 4;
+	while (i--)
 	{
-		printf("\ntetri %d ", i);
-		ft_read_pos(table[i], pos);
-		//checks
-		ft_check_a(pos);
-		ft_check_b(pos);
-		ft_check_c(pos);
-		ft_check_d(pos);
-		ft_check_e(pos);
-		ft_check_f(pos);
-		ft_check_g(pos);
-		ft_check_h(pos);
-		ft_check_i(pos);
-		printf("\n");
-		ft_print_tetri_pos(pos);
-		i++;
+		max_x = (pos_x[i] > max_x) ? pos_x[i]  : max_x;
+		max_y = (pos_y[i] > max_y) ? pos_y[i]  : max_y;
 	}
-	return (1);
+	max_x++;
+	max_y++;
+	if (max_x == 2 && max_y == 2)
+		return (22);
+	else if (max_x == 1 && max_y == 4)
+		return (14);
+	else if (max_x == 4 && max_y == 1)
+		return (41);
+	else if (max_x == 3 && max_y == 2)
+		return (32);
+	else if (max_x == 2 && max_y == 3)
+		return (23);
+	return (0);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int		brute_force(int pos_x[4], int pos_y[4], int type)
+{
+	int		res;
+
+	res = 0;
+	if (type == 22)
+		res = ft_test_22(pos_x, pos_y);
+	else if (type == 14)
+		res = ft_test_22(pos_x, pos_y);
+	else if (type == 41)
+		res = ft_test_22(pos_x, pos_y);
+	else if (type == 32)
+		res = ft_test_22(pos_x, pos_y);
+	//else if (type == 23)
+	//	res = ft_test_22(pos_x, pos_y);
+	return (res);	
+}
 

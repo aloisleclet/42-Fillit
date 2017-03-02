@@ -6,25 +6,24 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/01 10:24:35 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/02 11:05:29 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // print tetri from table and n 
 
-void	ft_print_tetri_table(char ***table, int n)
+void	ft_print_tetri_map(char **table)
 {
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-
 	while (j < 4)
 	{
 		while (i < 4)
 		{
-			ft_putchar(table[n][j][i]);
+			ft_putchar(table[j][i]);
 			i++;
 		}
 		ft_putchar('\n');
@@ -43,7 +42,6 @@ void	ft_print_tetri_pos(int pos[4][2])
 
 	x = 0;
 	y = 0;
-
 	while (y < 4)
 	{
 		while (x < 4)
@@ -91,7 +89,6 @@ void	ft_print_bin(unsigned char **bin, int nb)
 		printf("\n");
 	}
 }
-
 
 char	***ft_alloc_table(char ***table, int n)
 {
@@ -189,7 +186,6 @@ unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb
 	return (bin);
 }
 
-
 //Size of the file and some check buf there is some bug here
 
 int		ft_size(char *filename, int size[]) //something goes wrong here ..
@@ -200,7 +196,6 @@ int		ft_size(char *filename, int size[]) //something goes wrong here ..
 
 	fd = ft_open_file(filename);
 	last = -1;
-
 	while (read(fd, buf, 1))
 	{
 		size[0] += 1;
