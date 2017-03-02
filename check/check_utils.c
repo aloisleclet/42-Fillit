@@ -6,22 +6,44 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/02 13:42:18 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/02 17:15:33 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void		set_translation(int x, int y, int translate[2])
+void		translation(int pos_x[4], int pos_y[4]) // bug on the translation
 {
-	translate[0] = x;// x
-	translate[1] = y;// y
+	int		i;
+	int		x;
+	int		y;
+	int		origin_x;
+	int		origin_y;
+
+	i = 0;
+	x = 0;
+	y = 0;
+	origin_x = 4;
+	origin_y = pos_y[0];	
+	while (i < 4)
+	{
+		origin_x = (pos_x[i] < origin_x) ? pos_x[i] : origin_x;
+		printf("o_x :%d\n", origin_x);
+		i++;
+	}		
+	
+	i = 0;
+	while (i < 4)
+	{
+		pos_x[i] = x - origin_x;
+		pos_y[i] = y - origin_y;
+		i++;
+	}
 }
 
-void		map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4])
+void		map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4]) //
 {
 	int		i;
 	int		j;
 	int		n;
-	int		translate[2];
 
 	i = 0;
 	j = 0;
@@ -32,10 +54,8 @@ void		map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4])
 		{
 			if (map[j][i] == '#')
 			{
-				if (n == 0)
-					set_translation(i, j, translate);
-				pos_x[n] = i - translate[0];
-				pos_y[n] = j - translate[1];
+				pos_x[n] = i;
+				pos_y[n] = j;
 				n++;
 			}
 			i++;
@@ -43,6 +63,7 @@ void		map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4])
 		i = 0;
 		j++;
 	}
+	translation(pos_x, pos_y);
 }
 
 int		check_type(int pos_x[4], int pos_y[4])
@@ -56,8 +77,9 @@ int		check_type(int pos_x[4], int pos_y[4])
 	i = 4;
 	while (i--)
 	{
-		max_x = (pos_x[i] > max_x) ? pos_x[i]  : max_x;
-		max_y = (pos_y[i] > max_y) ? pos_y[i]  : max_y;
+		max_x = (pos_x[i] > max_x) ? pos_x[i] : max_x;
+		max_y = (pos_y[i] > max_y) ? pos_y[i] : max_y;
+		printf("x: %d y: %d pos_x: %d pos_y: %d\n", max_x, max_y, pos_x[i], pos_y[i]);
 	}
 	max_x++;
 	max_y++;
@@ -71,6 +93,7 @@ int		check_type(int pos_x[4], int pos_y[4])
 		return (32);
 	else if (max_x == 2 && max_y == 3)
 		return (23);
+		printf("x: %d y: %d\n", max_x, max_y);
 	return (0);
 }
 
@@ -108,9 +131,8 @@ int		check_all(char ***table)
 		map_to_tetri_pos(table[i], pos_x, pos_y);
 		type = check_type(pos_x, pos_y);
 		res = brute_force(pos_x, pos_y, type);
-		printf("res : %d\n", res);
+		printf("type: %d res : %d\n", type, res);
 		i++;
 	}	
 	return (0);
 }
-

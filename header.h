@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/02 13:37:18 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/02 16:25:34 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ int		check_all(char ***table);
 #include <stdlib.h>
 #include <fcntl.h>
 
-#include "test_32.c"
-#include "test_32_afterpart.c"
+#include "check/test_32.c"
+#include "check/test_32_afterpart.c"
 
-#include "test_23.c"
-#include "test_23_afterpart.c"
+#include "check/test_23.c"
+#include "check/test_23_afterpart.c"
 
-#include "tests.c"
+#include "check/tests.c"
 
 #include "standard_utils.c"
-#include "check_utils.c"
+#include "check/check_utils.c"
 #include "utils.c"
 
 
