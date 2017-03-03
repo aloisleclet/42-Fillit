@@ -6,36 +6,31 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/02 17:15:33 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/03 14:04:48 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void		translation(int pos_x[4], int pos_y[4]) // bug on the translation
 {
-	int		i;
-	int		x;
-	int		y;
+	int		n;
 	int		origin_x;
 	int		origin_y;
 
-	i = 0;
-	x = 0;
-	y = 0;
+	n = 0;
 	origin_x = 4;
 	origin_y = pos_y[0];	
-	while (i < 4)
+	while (n < 4)
 	{
-		origin_x = (pos_x[i] < origin_x) ? pos_x[i] : origin_x;
-		printf("o_x :%d\n", origin_x);
-		i++;
+		origin_x = (pos_x[n] < origin_x) ? pos_x[n] : origin_x;
+		n++;
 	}		
 	
-	i = 0;
-	while (i < 4)
+	n = 0;
+	while (n < 4)
 	{
-		pos_x[i] = x - origin_x;
-		pos_y[i] = y - origin_y;
-		i++;
+		pos_x[n] -= origin_x;
+		pos_y[n] -= origin_y;
+		n++;
 	}
 }
 
@@ -79,7 +74,6 @@ int		check_type(int pos_x[4], int pos_y[4])
 	{
 		max_x = (pos_x[i] > max_x) ? pos_x[i] : max_x;
 		max_y = (pos_y[i] > max_y) ? pos_y[i] : max_y;
-		printf("x: %d y: %d pos_x: %d pos_y: %d\n", max_x, max_y, pos_x[i], pos_y[i]);
 	}
 	max_x++;
 	max_y++;
@@ -93,7 +87,6 @@ int		check_type(int pos_x[4], int pos_y[4])
 		return (32);
 	else if (max_x == 2 && max_y == 3)
 		return (23);
-		printf("x: %d y: %d\n", max_x, max_y);
 	return (0);
 }
 

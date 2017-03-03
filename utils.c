@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/02 17:03:27 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/03 14:28:19 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	***ft_alloc_table(char ***table, int n)
 	return (table);
 }
 
-char	***ft_fill_table(char ***table, char *filename)
+int		ft_fill_table(char ***table, char *filename)
 {
 	int		x;
 	int		y;
@@ -138,7 +138,7 @@ char	***ft_fill_table(char ***table, char *filename)
 			x++;
 		}
 	}
-	return (table);
+	return (table == NULL);
 }
 
 // 2D table with binary value
@@ -186,32 +186,58 @@ unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb
 	return (bin);
 }
 
-//Size of the file and some check buf there is some bug here
+//nb of tetri and some check
 
-int		ft_size(char *filename, int size[]) //something goes wrong here ..
+int		ft_size(char *filename, int n[0])
 {
 	int		fd;
 	char	buf[1];
-	int		last;
+	int		error;
+	int		i;
 
+	i = 0;
 	fd = ft_open_file(filename);
-	last = -1;
+	error = 0;
 	while (read(fd, buf, 1))
 	{
-		size[0] += 1;
-		if (buf[0] == '\n')
+		i++;
+		if (i != 5)
 		{
-			size[1] += 1;
-			last = (last == size[0] || last == -1) ? size[0] : last;
-			size[0] = (last == size[0] || last == -1) ? size[0] : size[0];
-			if (!(last == size[0] || last == -1))
-				return (0);	
+			error += (buf[0] != '.' && buf[0] != '#');
 		}
-		if (buf[0] != ' ' && buf[0] != '\n' && buf[0] != '.' && buf[0] != '#')
-			return (0);
+		else
+		{
+			error += (buf[0] != ' ' && buf[0] != '\n');
+			i = 0;
+			n[0] += 1;
+		}
 	}
-	size[0] = last;
-	close(fd);
-	return (1);
+	n[0] /= 4;
+	return (error && (i == 0));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

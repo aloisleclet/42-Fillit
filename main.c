@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:02 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/02 17:03:35 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/03 14:34:40 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ int		main(int argc, char **argv)
 {
 	int		fd;
 	char	***table;
-	int		size[2];
+	int		n[0];
 
 	fd = 0;
-	size[0] = 0;
-	size[1] = 0;
+	n[0] = 0;
 	table = NULL;
 
 	if (!ft_is_input(argc))
@@ -29,19 +28,17 @@ int		main(int argc, char **argv)
 	//test
 	ft_putstr("Let's go !\n");
 
-	ft_size(argv[1], &size[0]);	
-	printf("%d, %d\n", size[0], size[1]);
+	printf("ft_size error : %d\n", ft_size(argv[1], n));
 
 	//main
 
 	// generate table from data
-	table = ft_alloc_table(table, 10);
-	ft_fill_table(table, argv[1]);
+	table = ft_alloc_table(table, n[0]);
+	printf("ft_fill_table error : %d\n", ft_fill_table(table, argv[1]));
 
-	check_all(table);
+	printf("check_all error : %d\n", check_all(table));
+	printf("nb tetri: %d\n", n[0]);
 	//test
-	
-
 	return (0);
 }
 
