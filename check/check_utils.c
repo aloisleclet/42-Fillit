@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/03 14:04:48 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/07 14:51:16 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		brute_force(int pos_x[4], int pos_y[4], int type)
 	return (res);	
 }
 
-int		check_all(char ***table)
+int		check_all(char ***table, int n)
 {
 	int		pos_x[4];	
 	int		pos_y[4];	
@@ -119,7 +119,7 @@ int		check_all(char ***table)
 	type = 0;
 	i = 0;	
 	res = 0;
-	while (table[i])
+	while (i < n)
 	{
 		map_to_tetri_pos(table[i], pos_x, pos_y);
 		type = check_type(pos_x, pos_y);

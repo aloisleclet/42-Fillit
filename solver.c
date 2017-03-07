@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   standard_utils.c                                   :+:      :+:    :+:   */
+/*   solver.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/23 14:38:56 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/07 14:12:34 by aleclet          ###   ########.fr       */
+/*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
+/*   Updated: 2017/03/07 14:53:30 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_putchar(char c)
+int		alloc_map(int size, char ***map)
 {
-	write(1, &c, 1);
+
 }
 
-void	ft_putstr(char *s)
+int		solve(char ***table, char ***map, int n)
 {
-	while (*s++)
-		ft_putchar(*(s - 1));
+	int		i;
+	int		pos_x[4];
+	int		pos_y[4];
+
+	i = 0;
+	while (i < n)
+	{
+		map_to_tetris_pos(table[i], pos_x, pos_y);
+	}
 }
 
-int		ft_is_input(int argc)
+int		put_tetri_on_map(int pos_x, int pos_y)
 {
-	if (argc == 2)
-		return (1);
-	return (0);
+
 }
 
-int		ft_open_file(char *filename)
-{
-	int		fd;	
-
-	fd = open(filename, O_RDONLY);
-	if (fd != -1)
-		return (fd);	
-	else
-		return (0);	
-}
 

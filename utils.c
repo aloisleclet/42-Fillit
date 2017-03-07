@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/03 14:28:19 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/07 14:45:35 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,20 @@ int		ft_fill_table(char ***table, char *filename)
 	fd = ft_open_file(filename);
 	while (read(fd, buf, 1))
 	{
-		x = (buf[0] == '\n') ? 0 : x;
-		i = (buf[0] == '\n') ? 0 : i;
-		y = (buf[0] == '\n') ? y + 1 : y;
-		i = (buf[0] == ' ') ? i + 1 : i;
-		x = (buf[0] == ' ') ? 0 : x;
-		if (buf[0] != ' ' && buf[0] != '\n')
+		if (buf[0] != '\n')
 		{
 			table[i][y][x] = buf[0];
 			x++;
+		}
+		if (buf[0] == '\n')
+		{
+			x = 0;
+			y++;
+			if (y == 5)
+			{
+				y = 0;
+				i++;
+			}
 		}
 	}
 	return (table == NULL);
@@ -193,51 +198,33 @@ int		ft_size(char *filename, int n[0])
 	int		fd;
 	char	buf[1];
 	int		error;
-	int		i;
+	int		y;
+	int		x;
 
-	i = 0;
+	y = 0;
+	x = 0;
 	fd = ft_open_file(filename);
 	error = 0;
+	n[0] = 0;
 	while (read(fd, buf, 1))
 	{
-		i++;
-		if (i != 5)
+		x++;
+		//printf("[%c] %d %d\n" , buf[0], x, y);
+		if (((x == 6 && (y % 5)) ||
+			(x == 0 && !(y % 5))) &&
+			y != 0 && buf[0] != '\n')
 		{
-			error += (buf[0] != '.' && buf[0] != '#');
+			//printf(" error %d - %d- [%c]\n", x, y, buf[0]);
+			return (0);
 		}
-		else
+		if (x == 5)
 		{
-			error += (buf[0] != ' ' && buf[0] != '\n');
-			i = 0;
-			n[0] += 1;
+			x = 0;
+			y++;
 		}
 	}
-	n[0] /= 4;
-	return (error && (i == 0));
+	n[0] = y / 4;
+	//printf("nb tetri %d\n", n[0]);
+	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

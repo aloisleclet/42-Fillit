@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/03 14:25:43 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/07 14:04:09 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		ft_test237(int pos_x[4], int pos_y[4]);
 void	map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4]);
 int		check_type(int pos_x[4], int pos_y[4]);
 int		brute_force(int pos_x[4], int pos_y[4], int type);
-int		check_all(char ***table);
+int		check_all(char ***table, int n);
 
 #include <stdio.h>
 
