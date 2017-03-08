@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/07 14:45:35 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/08 14:17:29 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int		ft_size(char *filename, int n[0])
 			(x == 0 && !(y % 5))) &&
 			y != 0 && buf[0] != '\n')
 		{
-			//printf(" error %d - %d- [%c]\n", x, y, buf[0]);
+		//	printf(" error %d - %d- [%c]\n", x, y, buf[0]);
 			return (0);
 		}
 		if (x == 5)
@@ -224,7 +224,7 @@ int		ft_size(char *filename, int n[0])
 		}
 	}
 	n[0] = y / 4;
-	//printf("nb tetri %d\n", n[0]);
+	printf("nb tetri %d\n", n[0]);
 	return (0);
 }
 

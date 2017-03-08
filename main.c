@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:02 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/07 14:49:14 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/08 11:34:47 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int		main(int argc, char **argv)
 
 	printf("check_all error : %d\n", check_all(table, n[0]));
 //	printf("ok 3\n");
-	printf("nb tetri: %d\n", n[0]);
-
+	//printf("nb tetri: %d\n", n[0]);
+	solve(table);
 
 	//test
 	return (0);
