@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/24 14:42:25 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/24 16:51:21 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int		limit_map(int pos_x[4], int pos_y[4], int translate_x, int translate_y, int
 	int		i;
 
 	i = 0;
-	while (i < size_map)
+	while (i < 4)
 	{
-		//printf("i: %d x: %d y: %d\n", i, pos_x[i] + translate_x,  pos_y[i] + translate_y);
+		//printf("i: %d x: %d y: %d, pos_x[i]: %d translate_x: %d\n", i, pos_x[i] + translate_x,  pos_y[i] + translate_y, pos_x[i], translate_x);
 		if ((pos_x[i] + translate_x) >= size_map)
 		{
 		//	printf("limit x\n");
@@ -95,7 +95,7 @@ int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int tr
 		//	printf("before\n");
 		//	print_map(map, 6);
 		//	printf("after place-found\n");
-			id++;
+			id = (id > 26) ? 16 : id + 1;
 			map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id + 48; //map[y][x] chelou ..
 			map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id + 48;
 			map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id + 48;
@@ -124,22 +124,22 @@ int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 	translate_y = 0;
 	while (translate_y < size_map && !place_found(map, pos_x, pos_y, translate_x, translate_y))
 	{
-//		printf("no-place\n");
-		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == 0)
+	//	printf("no-place\n");
+		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == 0)//x
 		{
-			translate_x = 0;
+			translate_x = -1;//
 			translate_y++;
 		}
-		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == -1)
+		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == -1)//y
 		{
 			return (0);
 		}	
 		else
 			translate_x++;
-//		printf("translate x: %d y: %d \n", translate_x, translate_y);
+	//	printf("translate x: %d\n", translate_x);
 	}
 	
-//	printf("end put_tetri_on_map\n");
+	//printf("end put_tetri_on_map\n");
 	print_map(map, size_map);
 	return (1);
 //todo
@@ -147,6 +147,35 @@ int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 // return 1 if the tetris find place
 // return 0 if the tetris have no place
 // return -1 if there is an error
+}
+
+int		init_map_size(char ***table, int n)
+{
+	int		size;
+	int		i;
+	int		pos_x[4];
+	int		pos_y[4];
+	int		is_not_a_square;
+
+	size = 0;
+	i = 0;
+	is_not_a_square = 0;
+
+	if (n == 1)
+	{
+		//is it a square ??
+		map_to_tetri_pos(*(table + 0), pos_x, pos_y);
+		while (i < 4)
+		{
+			if (pos_x[i] > 2 && pos_y[i] > 2)
+				is_not_a_square++;
+			i++;	
+		}
+		size = (!is_not_a_square) ? 2 : 3;
+	}
+	else
+		size = 3;	
+	return (size);
 }
 
 int		solve(char ***table, int n)
@@ -157,7 +186,7 @@ int		solve(char ***table, int n)
 	int		pos_y[4];
 	char	**map;
 
-	size = 3;
+	size = init_map_size(table, n);
 	i = 0;
 	map = NULL;
 	
@@ -169,9 +198,7 @@ int		solve(char ***table, int n)
 		printf("i :  %d\n", i);
 		map_to_tetri_pos(*(table + i), pos_x, pos_y);
 		if (put_tetri_on_map(pos_x, pos_y, map, size) == 1)
-		{
 			i++;
-		}
 		else
 		{
 			size++;
