@@ -6,11 +6,11 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/08 14:58:47 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/24 14:42:28 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void		translation(int pos_x[4], int pos_y[4]) // bug on the translation
+void		translation(int pos_x[4], int pos_y[4]) // bug on the translation ?
 {
 	int		n;
 	int		origin_x;
@@ -117,7 +117,7 @@ int		check_all(char ***table, int n)
 	int		res;
 
 	type = 0;
-	i = 0;	
+	i = 0;
 	res = 0;
 	while (i < n)
 	{
@@ -126,6 +126,6 @@ int		check_all(char ***table, int n)
 		res = brute_force(pos_x, pos_y, type);
 		printf("type: %d res : %d\n", type, res);
 		i++;
-	}	
+	}
 	return (0);
 }

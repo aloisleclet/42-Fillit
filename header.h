@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/09 08:57:18 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/24 14:23:14 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		check_all(char ***table, int n);
 
 //solver
 
-int		solve(char ***table);
+int		solve(char ***table, int n);
 
 #include <stdio.h>
 

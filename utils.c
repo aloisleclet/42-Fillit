@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/09 12:38:12 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/24 14:02:20 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,10 @@ void	ft_print_tetri_pos(int pos[4][2])
 	{
 		while (x < 4)
 		{
-			if (pos[0][0] == x && pos[0][1] == y)
-				printf("#");
-			else if (pos[1][0] == x && pos[1][1] == y)
-				printf("#");
-			else if (pos[2][0] == x && pos[2][1] == y)
-				printf("#");
-			else if (pos[3][0] == x && pos[3][1] == y)
+			if ((pos[0][0] == x && pos[0][1] == y)\
+			|| (pos[1][0] == x && pos[1][1] == y) \
+			|| (pos[2][0] == x && pos[2][1] == y) \
+			|| (pos[3][0] == x && pos[3][1] == y))
 				printf("#");
 			else
 				printf(".");
@@ -146,6 +143,46 @@ int		ft_fill_table(char ***table, char *filename)
 	return (table == NULL);
 }
 
+
+//nb of tetri and some check
+
+int		ft_size(char *filename, int n[0])
+{
+	int		fd;
+	char	buf[1];
+	int		error;
+	int		y;
+	int		x;
+
+	y = 0;
+	x = 0;
+	fd = ft_open_file(filename);
+	error = 0;
+	n[0] = 0;
+	while (read(fd, buf, 1))
+	{
+		x++;
+		//printf("[%c] %d %d\n" , buf[0], x, y);
+		if (((x == 6 && (y % 5)) ||
+			(x == 0 && !(y % 5))) &&
+			y != 0 && buf[0] != '\n')
+		{
+		//	printf(" error %d - %d- [%c]\n", x, y, buf[0]);
+			return (0);
+		}
+		if (x == 5)
+		{
+			x = 0;
+			y++;
+		}
+	}
+	n[0] = y / 4;
+	printf("nb tetri %d\n", n[0]);
+	return (0);
+}
+
+//TO DELETE
+
 // 2D table with binary value
 
 unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb)
@@ -190,41 +227,3 @@ unsigned char	**ft_file_to_table_bin(char *filename, unsigned char **bin, int nb
 	}
 	return (bin);
 }
-
-//nb of tetri and some check
-
-int		ft_size(char *filename, int n[0])
-{
-	int		fd;
-	char	buf[1];
-	int		error;
-	int		y;
-	int		x;
-
-	y = 0;
-	x = 0;
-	fd = ft_open_file(filename);
-	error = 0;
-	n[0] = 0;
-	while (read(fd, buf, 1))
-	{
-		x++;
-		//printf("[%c] %d %d\n" , buf[0], x, y);
-		if (((x == 6 && (y % 5)) ||
-			(x == 0 && !(y % 5))) &&
-			y != 0 && buf[0] != '\n')
-		{
-		//	printf(" error %d - %d- [%c]\n", x, y, buf[0]);
-			return (0);
-		}
-		if (x == 5)
-		{
-			x = 0;
-			y++;
-		}
-	}
-	n[0] = y / 4;
-	printf("nb tetri %d\n", n[0]);
-	return (0);
-}
-
