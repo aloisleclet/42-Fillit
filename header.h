@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/24 14:49:23 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/27 14:19:27 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		ft_size(char *filename, int n[0]);
 char	***ft_alloc_table(char ***table, int n);
 void	ft_print_table(char ***table, int n);
 void	ft_print_tetri_pos(int pos[4][2]);
+void	ft_free_table(char ***table, int n);
 
 //tests
 
@@ -61,7 +62,7 @@ int		check_all(char ***table, int n);
 
 //solver
 
-int		solve(char ***table, int n);
+void	solve(char ***table, int n);
 
 #include <stdio.h>
 

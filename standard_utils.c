@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 14:38:56 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/08 08:39:07 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/27 15:20:45 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,19 @@ int		ft_open_file(char *filename)
 		return (0);	
 }
 
+void	*ft_alloc(int size)
+{
+	void *p;
+
+	p = malloc(size);
+
+	if (!p)
+		return (0);
+	return (p);
+}
+
+void	ft_free(void *p)
+{
+	if (p)
+		free(p);
+}
