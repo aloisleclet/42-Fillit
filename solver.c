@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/27 15:24:59 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/28 16:57:47 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	print_map(char **map, int n)
 		j++;
 		ft_putchar('\n');
 	}
-	ft_putchar('\n');
 }
 
 int		limit_map(int pos_x[4], int pos_y[4], int translate_x, int translate_y, int size_map)
@@ -97,19 +96,20 @@ int id = 16;// to del
 
 int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int translate_y)
 {
-		if (map[pos_y[0] + translate_y][pos_x[0] + translate_x] == '.' &&
-		map[pos_y[1] + translate_y][pos_x[1] + translate_x] == '.' &&
-		map[pos_y[2] + translate_y][pos_x[2] + translate_x] == '.' &&
-		map[pos_y[3] + translate_y][pos_x[3] + translate_x] == '.')
-		{
-			id = (id > 26) ? 16 : id + 1;//to del
-			map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id + 48;//map[y][x]
-			map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id + 48;
-			map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id + 48;
-			map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id + 48;
-			return (1);
-		}
-		return (0);
+	if (map[pos_y[0] + translate_y][pos_x[0] + translate_x] == '.' &&
+	map[pos_y[1] + translate_y][pos_x[1] + translate_x] == '.' &&
+	map[pos_y[2] + translate_y][pos_x[2] + translate_x] == '.' &&
+	map[pos_y[3] + translate_y][pos_x[3] + translate_x] == '.')
+	{
+		id++;
+		//id = (id > 26) ? 16 : id + 1;//to del
+		map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id + 48;//map[y][x]
+		map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id + 48;
+		map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id + 48;
+		map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id + 48;
+		return (1);
+	}
+	return (0);
 }
 
 int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
@@ -148,7 +148,6 @@ int		init_map_size(char ***table, int n) // to recode
 	size = 0;
 	i = 0;
 	is_not_a_square = 0;
-
 	if (n == 1)
 	{
 		map_to_tetri_pos(*(table + 0), pos_x, pos_y);
@@ -156,9 +155,9 @@ int		init_map_size(char ***table, int n) // to recode
 		{
 			if (pos_x[i] > 2 && pos_y[i] > 2)
 				is_not_a_square++;
-			i++;	
+			i++;
 		}
-		size = (!is_not_a_square) ? 2 : 3;// error 4
+		size = (!is_not_a_square) ? 2 : 3; // error 4
 	}
 	else
 		size = 3;
@@ -186,10 +185,34 @@ void	solve(char ***table, int n)
 		{
 			size++;
 			//free_map(map, size);
+			id = 16;//reset A
 			map = alloc_map(map, size);//leaks
 			i = 0;
 		}
 	}
 	print_map(map, size);
 	free_map(map, size);
+}
+
+int		ft_fillit(int argc, char *filename)
+{
+	int		fd;
+	int		n[0];
+	char	***table;
+
+	fd = 0;
+	n[0] = 0;
+	table = NULL;
+	if (!ft_is_input(argc))
+		return (1);
+	if (ft_size(filename, n))
+		return (1);
+	table = ft_alloc_table(table, n[0]);
+	if (ft_fill_table(table, filename))
+		return (1);
+	if (check_all(table, n[0]))
+		return (1);
+	solve(table, n[0]);
+	ft_free_table(table, n[0]);
+	return (0);
 }

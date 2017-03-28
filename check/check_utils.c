@@ -6,11 +6,11 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/27 15:10:22 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/28 16:41:50 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void		translation(int pos_x[4], int pos_y[4]) // bug on the translation ?
+void		translation(int pos_x[4], int pos_y[4])
 {
 	int		n;
 	int		origin_x;
@@ -124,7 +124,6 @@ int		check_all(char ***table, int n)
 		map_to_tetri_pos(table[i], pos_x, pos_y);
 		type = check_type(pos_x, pos_y);
 		res = brute_force(pos_x, pos_y, type);
-		printf("type: %d res : %d\n", type, res);
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/27 15:22:04 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/28 16:49:32 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	ft_manage_xyi(int *i, int *y, int *x, char c)
 			*y = 0;
 			*i += 1;
 		}
+		//why when you replace by a ternaire expression it segfault ?
 	}
 }
-
 
 int		ft_fill_table(char ***table, char *filename)
 {
@@ -87,9 +87,6 @@ int		ft_fill_table(char ***table, char *filename)
 	}
 	return (table == NULL);
 }
-
-
-//nb of tetri and some check
 
 int		ft_size(char *filename, int n[0])
 {
