@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/29 16:46:55 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/29 16:56:23 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int		ft_fill_table(char ***table, char *filename)
 //	return (0);
 //}
 
-int		ft_size(char *filename, int n[0])
+int		ft_size(char *filename, int *n)
 {
 	int		fd;
 	char	buf[1];
@@ -123,7 +123,7 @@ int		ft_size(char *filename, int n[0])
 	y = 0;
 	x = 0;
 	fd = ft_open_file(filename);
-	n[0] = 0;
+	*n = 0;
 	while (read(fd, buf, 1))
 	{
 		x++;
@@ -133,7 +133,7 @@ int		ft_size(char *filename, int n[0])
 			y++;
 		}
 	}
-	n[0] = y / 4;
+	*n = y / 4;
 	return (0);
 }
 
