@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/28 16:49:32 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/29 16:46:55 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,31 @@ int		ft_fill_table(char ***table, char *filename)
 	return (table == NULL);
 }
 
+//int		ft_check_map(char *filename, int n[0])
+//{
+//	int		fd;
+//	int		buf[1];
+//	int		y;
+//	int		x;
+//
+//	y = 0;
+//	x = 0;
+//
+//	fd = ft_open_file(filename);
+//	n[0] = 0;
+//	while (read(fd, buf, 1))
+//	{
+//		x++;
+//		if (x == 5)
+//		{
+//			x = 0;
+//			y++;
+//		}
+//	}
+//	n[0] = y / 4;
+//	return (0);
+//}
+
 int		ft_size(char *filename, int n[0])
 {
 	int		fd;
@@ -102,8 +127,6 @@ int		ft_size(char *filename, int n[0])
 	while (read(fd, buf, 1))
 	{
 		x++;
-		if (((x == 6 && (y % 5)) || (x == 0 && !(y % 5))) && y != 0 && buf[0] != '\n')
-			return (1);
 		if (x == 5)
 		{
 			x = 0;
@@ -113,3 +136,29 @@ int		ft_size(char *filename, int n[0])
 	n[0] = y / 4;
 	return (0);
 }
+
+//int		ft_size(char *filename, int n[0])
+//{
+//	int		fd;
+//	char	buf[1];
+//	int		y;
+//	int		x;
+//
+//	y = 0;
+//	x = 0;
+//	fd = ft_open_file(filename);
+//	n[0] = 0;
+//	while (read(fd, buf, 1))
+//	{
+//		x++;
+//		if (((x == 6 && (y % 5)) || (x == 0 && !(y % 5))) && y != 0 && buf[0] != '\n')
+//			return (1);
+//		if (x == 5)
+//		{
+//			x = 0;
+//			y++;
+//		}
+//	}
+//	n[0] = y / 4;
+//	return (0);
+//}

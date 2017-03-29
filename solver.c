@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/28 16:57:47 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/29 16:50:09 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,13 +205,18 @@ int		ft_fillit(int argc, char *filename)
 	table = NULL;
 	if (!ft_is_input(argc))
 		return (1);
+	printf("input ok\n");
 	if (ft_size(filename, n))
 		return (1);
+	printf("size ok\n");
 	table = ft_alloc_table(table, n[0]);
+	printf("alloc table ok\n");
 	if (ft_fill_table(table, filename))
 		return (1);
+	printf("fill table ok\n");
 	if (check_all(table, n[0]))
 		return (1);
+	printf("check_all ok\n");
 	solve(table, n[0]);
 	ft_free_table(table, n[0]);
 	return (0);
