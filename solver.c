@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/29 16:57:14 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/30 15:50:45 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,8 @@ int		ft_fillit(int argc, char *filename)
 	n = 0;
 	table = NULL;
 	if (!ft_is_input(argc))
+		return (1);
+	if (ft_check_map(filename))
 		return (1);
 	printf("input ok\n");
 	if (ft_size(filename, &n))

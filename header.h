@@ -6,12 +6,14 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/29 16:51:48 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/30 14:16:27 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
+
+#include <stdio.h>
 
 ////standard_utils
 //
