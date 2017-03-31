@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/30 16:54:27 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/31 16:51:08 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,51 @@ int		ft_fill_table(char ***table, char *filename)
 	return (table == NULL);
 }
 
-int		ft_check_map(char *filename)
+int		ft_check_engine(char c, int *x, int *y, int *nb_case)
+{ 
+	int 	m;
+
+	m = 0;
+	*x += 1;
+	printf("%c", c);
+	if (c == '\n' && ((*x == 5) || ((*x == 1) && (*y % 5) == 0)))
+	{
+		printf("1\n");
+	}
+	else if (c == '.' && (*x != 5) && (*y % 5) != 0)
+	{
+		printf("2\n");
+	}
+	else if (c == '#' && (*x != 5) && ((*y % 5) != 0))
+	{
+		*nb_case += 1;
+		printf("3\n");
+		printf("case %d\n", *nb_case);
+	}
+	else
+	{
+		printf("error buf[0]: [%c], x: %d, y: %d\n", c, *x, *y);
+		return (1);
+	}
+	if (*x == 5 || (*x == 1 && c == '\n') || *y == 4) //end of line or end of tetri
+	{
+		if (*x == 1) //end of tetri
+		{
+			if (*nb_case != 4)
+				return (1);
+			*nb_case = (*nb_case == 4) ? 0 : *nb_case;
+		}
+		*x = 0;
+		*y += 1;
+	}
+	m = (*x) * (*y);
+	//printf("tot: %d\n", m);
+	return (0);
+}
+
+int		ft_check_map(int fd)
 {
-	int		fd;
+	int		i;
 	int		buf[1];
 	int		x;
 	int		y;
@@ -98,42 +140,18 @@ int		ft_check_map(char *filename)
 
 	x = 0;
 	y = 1;
-	fd = ft_open_file(filename);
 	nb_case = 0;
+	i = 0;
 	while (read(fd, buf, 1))
-	{
-		nb_case = (nb_case == 4) ? 0 : nb_case;
-		x++;
-		printf("case : %d\n", nb_case);
-		printf("buf[0]: [%c], x: %d, y: %d\n", buf[0], x, y);
-		if (buf[0] == '\n' && ((x == 5) || ((x == 1) && (y % 5) == 0)))
+	{ 
+		i++;
+		if (ft_check_engine(buf[0], &x, &y, &nb_case))
 		{
-		}	
-		else if (buf[0] == '.' && (x != 5) && (y % 5) != 0)
-		{
-		}
-		else if (buf[0] == '#' && (x != 5) && ((y % 5) != 0))
-		{
-			nb_case++;
-			printf("case %d\n", nb_case);
-		}
-		else
-		{
-			printf("buf[0]: [%c], x: %d, y: %d\n", buf[0], x, y);
+	//		printf(" error\n");
 			return (1);
 		}
-		if (x == 5 || (x == 1 && buf[0] == '\n')) // end of tetri
-		{
-			if (x == 1 && nb_case != 4)
-			{
-				printf("case %d\n", nb_case);
-				return (1);
-			}
-			x = 0;
-			y++;
-		}
 	}
-	return (0);
+	return ((x != 1) && (y % 5) && (!(((y % 5) == 0) || y == 4)));
 }
 
 int		ft_size(char *filename, int *n)

@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/30 15:50:45 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/03/31 16:07:04 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,16 +196,14 @@ void	solve(char ***table, int n)
 
 int		ft_fillit(int argc, char *filename)
 {
-	int		fd;
 	int		n;
 	char	***table;
 
-	fd = 0;
 	n = 0;
 	table = NULL;
 	if (!ft_is_input(argc))
 		return (1);
-	if (ft_check_map(filename))
+	if (ft_check_map(open(filename, O_RDONLY)))
 		return (1);
 	printf("input ok\n");
 	if (ft_size(filename, &n))
