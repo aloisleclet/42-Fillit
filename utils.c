@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/31 16:51:08 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/04 14:02:12 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,21 +97,21 @@ int		ft_check_engine(char c, int *x, int *y, int *nb_case)
 	printf("%c", c);
 	if (c == '\n' && ((*x == 5) || ((*x == 1) && (*y % 5) == 0)))
 	{
-		printf("1\n");
+	//	printf("1\n");
 	}
 	else if (c == '.' && (*x != 5) && (*y % 5) != 0)
 	{
-		printf("2\n");
+	//	printf("2\n");
 	}
 	else if (c == '#' && (*x != 5) && ((*y % 5) != 0))
 	{
 		*nb_case += 1;
-		printf("3\n");
-		printf("case %d\n", *nb_case);
+	//	printf("3\n");
+	//	printf("case %d\n", *nb_case);
 	}
 	else
 	{
-		printf("error buf[0]: [%c], x: %d, y: %d\n", c, *x, *y);
+	//	printf("error buf[0]: [%c], x: %d, y: %d\n", c, *x, *y);
 		return (1);
 	}
 	if (*x == 5 || (*x == 1 && c == '\n') || *y == 4) //end of line or end of tetri
@@ -130,28 +130,56 @@ int		ft_check_engine(char c, int *x, int *y, int *nb_case)
 	return (0);
 }
 
-int		ft_check_map(int fd)
+int		ft_check_engine_2(char **str)
 {
 	int		i;
-	int		buf[1];
-	int		x;
-	int		y;
 	int		nb_case;
+	char c;
 
-	x = 0;
-	y = 1;
+	i = 1;
+	c = 'a';
 	nb_case = 0;
+	while (i < 20)
+	{
+		c = *(*str + i);
+		if (((i % 5) == 0 && c != '\n') || ((i % 5) != 0 && c != '.' && c != '#'))
+			return (0);
+		if (c == '#')
+			nb_case += 1;
+		i++;
+	}
+	return (nb_case == 4);
+}
+
+int		ft_check_map(int fd)
+{
+	char	buf[1];
+	int		i;
+	int		nbt;
+	char	*s;
+
 	i = 0;
+	nbt = 0;
+	s = malloc(21);
+
 	while (read(fd, buf, 1))
 	{ 
 		i++;
-		if (ft_check_engine(buf[0], &x, &y, &nb_case))
+		s[i] = buf[0];
+//		printf("%c", buf[0]);
+		if (i == 20)
 		{
-	//		printf(" error\n");
-			return (1);
+			if (!ft_check_engine_2(&s))
+				return (1);
+			nbt++;
 		}
+		if (i == 21 && s[i] != '\n')
+			return (1);
+		else if (i == 21 && s[i] == '\n')
+			i = 0;
 	}
-	return ((x != 1) && (y % 5) && (!(((y % 5) == 0) || y == 4)));
+//	printf("[%c] %d\n", s[i], i);
+	return ((s[i] == '\n' && i == 21) || !(i == 20 || i == 21));
 }
 
 int		ft_size(char *filename, int *n)

@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/30 14:25:41 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/04 14:00:32 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int		check_all(char ***table, int n)
 	{
 		map_to_tetri_pos(table[i], pos_x, pos_y);
 		type = check_type(pos_x, pos_y);
+		if (!type)
+			return (1);
 		res = brute_force(pos_x, pos_y, type);
 		i++;
 	}

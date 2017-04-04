@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/31 16:07:04 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/04 14:03:27 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int		limit_map(int pos_x[4], int pos_y[4], int translate_x, int translate_y, int
 	int		i;
 
 	i = 0;
+	//printf("limit map\n");	
 	while (i < 4)
 	{
 		if ((pos_x[i] + translate_x) >= size_map)
@@ -101,6 +102,7 @@ int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int tr
 	map[pos_y[2] + translate_y][pos_x[2] + translate_x] == '.' &&
 	map[pos_y[3] + translate_y][pos_x[3] + translate_x] == '.')
 	{
+	//printf("place found : yes\n");
 		id++;
 		//id = (id > 26) ? 16 : id + 1;//to del
 		map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id + 48;//map[y][x]
@@ -109,6 +111,7 @@ int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int tr
 		map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id + 48;
 		return (1);
 	}
+	//printf("place found : no\n");
 	return (0);
 }
 
@@ -129,39 +132,37 @@ int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == -1)//y
 		{
 			return (0);
-		}	
+		}
 		else
+		{
 			translate_x++;
+		}
 	}
-	//print_map(map, size_map);
 	return (1);
 }
 
-int		init_map_size(char ***table, int n) // to recode
+int		fit_map(char **map, int size)
 {
-	int		size;
-	int		i;
-	int		pos_x[4];
-	int		pos_y[4];
-	int		is_not_a_square;
+	int		x;
+	int		y;
+	int		max_x;
+	int		new_size;
 
-	size = 0;
-	i = 0;
-	is_not_a_square = 0;
-	if (n == 1)
+	x = size - 1;
+	max_x = 0;
+	y = 0;
+	new_size = 0;
+	
+	while (y < size)
 	{
-		map_to_tetri_pos(*(table + 0), pos_x, pos_y);
-		while (i < 4)
-		{
-			if (pos_x[i] > 2 && pos_y[i] > 2)
-				is_not_a_square++;
-			i++;
-		}
-		size = (!is_not_a_square) ? 2 : 3; // error 4
+		while (map[y][x] == '.')
+			x--;
+		max_x = (x > max_x) ? x : max_x;
+		new_size = (x != -1) ? new_size + 1 : new_size;
+		x = size - 1;
+		y++;
 	}
-	else
-		size = 3;
-	return (size);
+	return ((new_size > max_x) ? new_size : max_x);
 }
 
 void	solve(char ***table, int n)
@@ -172,7 +173,7 @@ void	solve(char ***table, int n)
 	int		pos_y[4];
 	char	**map;
 
-	size = init_map_size(table, n);
+	size = 200;
 	i = 0;
 	map = NULL;
 	map = alloc_map(map, size);
@@ -180,17 +181,18 @@ void	solve(char ***table, int n)
 	{
 		map_to_tetri_pos(*(table + i), pos_x, pos_y);
 		if (put_tetri_on_map(pos_x, pos_y, map, size) == 1)
+		{
 			i++;
+		}
 		else
 		{
 			size++;
-			//free_map(map, size);
 			id = 16;//reset A
 			map = alloc_map(map, size);//leaks
 			i = 0;
 		}
 	}
-	print_map(map, size);
+	print_map(map, fit_map(map, size));
 	free_map(map, size);
 }
 
@@ -205,19 +207,20 @@ int		ft_fillit(int argc, char *filename)
 		return (1);
 	if (ft_check_map(open(filename, O_RDONLY)))
 		return (1);
-	printf("input ok\n");
+//	printf("input ok\n");
 	if (ft_size(filename, &n))
 		return (1);
-	printf("size ok\n");
+//	printf("size ok\n");
 	table = ft_alloc_table(table, n);
-	printf("alloc table ok\n");
+//	printf("alloc table ok\n");
 	if (ft_fill_table(table, filename))
 		return (1);
-	printf("fill table ok\n");
+//	printf("fill table ok\n");
 	if (check_all(table, n))
 		return (1);
-	printf("check_all ok\n");
+	//printf("check_all ok\n");
 	solve(table, n);
+//	printf("solve ok\n");
 	ft_free_table(table, n);
 	return (0);
 }
