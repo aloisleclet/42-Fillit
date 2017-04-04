@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/07 14:12:43 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/04 14:03:27 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/04 15:55:12 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,21 @@ int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int tr
 	return (0);
 }
 
+int		t_too_big(int pos_x[4], int pos_y[4], int size)
+{
+	int		type;
+	int		tetri_size = 0;
+
+	type = check_type(pos_x, pos_y);
+	if (type == 22)
+		tetri_size = 2;
+	if (type == 23 || type == 32)
+		tetri_size = 3;
+	if (type == 14 || type == 41)
+		tetri_size = 4;
+	return (tetri_size > size);
+}
+
 int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 {
 	int		translate_x;
@@ -122,6 +137,8 @@ int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 
 	translate_x = 0;
 	translate_y = 0;
+	if (t_too_big(pos_x, pos_y, size_map))
+		return (0);
 	while (translate_y < size_map && !place_found(map, pos_x, pos_y, translate_x, translate_y))
 	{
 		if (limit_map(pos_x, pos_y, translate_x, translate_y, size_map) == 0)//x
@@ -141,30 +158,6 @@ int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 	return (1);
 }
 
-int		fit_map(char **map, int size)
-{
-	int		x;
-	int		y;
-	int		max_x;
-	int		new_size;
-
-	x = size - 1;
-	max_x = 0;
-	y = 0;
-	new_size = 0;
-	
-	while (y < size)
-	{
-		while (map[y][x] == '.')
-			x--;
-		max_x = (x > max_x) ? x : max_x;
-		new_size = (x != -1) ? new_size + 1 : new_size;
-		x = size - 1;
-		y++;
-	}
-	return ((new_size > max_x) ? new_size : max_x);
-}
-
 void	solve(char ***table, int n)
 {
 	int		i;
@@ -173,7 +166,7 @@ void	solve(char ***table, int n)
 	int		pos_y[4];
 	char	**map;
 
-	size = 200;
+	size = 2;
 	i = 0;
 	map = NULL;
 	map = alloc_map(map, size);
@@ -192,7 +185,7 @@ void	solve(char ***table, int n)
 			i = 0;
 		}
 	}
-	print_map(map, fit_map(map, size));
+	print_map(map, size);
 	free_map(map, size);
 }
 
