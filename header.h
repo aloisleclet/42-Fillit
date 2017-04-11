@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/04 14:11:43 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/11 16:56:56 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@
 //
 ////check_utils
 //
-//void	map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4]);
 //int		check_type(int pos_x[4], int pos_y[4]);
 //int		brute_force(int pos_x[4], int pos_y[4], int type);
 //int		check_all(char ***table, int n);
+
+void	map_to_tetri_pos(char **map, int pos_x[4], int pos_y[4]);
 
 #include <stdio.h>
 
@@ -86,9 +87,9 @@
 #include "check/tests.c"
 
 #include "standard_utils.c"
-#include "check/check_utils.c"
-#include "utils.c"
-
-#include "solver.c"
+#include "solver/map.c"
+#include "check/check.c"
+#include "table.c"
+#include "solver/tetri.c"
 
 #endif
