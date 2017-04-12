@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/11 16:39:27 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/11 16:40:53 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/12 16:56:24 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,7 @@ void	print_map(char **map, int n)
 	}
 }
 
-int		limit_map(int pos_x[4], int pos_y[4], int translate_x, int translate_y, int size_map)
-{
-	int		i;
-
-	i = 0;
-	//printf("limit map\n");	
-	while (i < 4)
-	{
-		if ((pos_x[i] + translate_x) >= size_map)
-		{
-			return (0); //limit x
-		}
-		else if ((pos_y[i] + translate_y) >= size_map)
-		{
-			return (-1); //limit y
-		}
-		i++;
-	}
-	return (1);
-}
-
-int id = 16;// to del
+int id_letter = 16;// to del
 
 int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int translate_y)
 {
@@ -102,15 +81,38 @@ int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int tr
 	map[pos_y[2] + translate_y][pos_x[2] + translate_x] == '.' &&
 	map[pos_y[3] + translate_y][pos_x[3] + translate_x] == '.')
 	{
-	//printf("place found : yes\n");
-		id++;
-		//id = (id > 26) ? 16 : id + 1;//to del
-		map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id + 48;//map[y][x]
-		map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id + 48;
-		map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id + 48;
-		map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id + 48;
+		//write on map
+		id_letter++;
+		map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id_letter + 48;//map[y][x]
+		map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id_letter + 48;
+		map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id_letter + 48;
+		map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id_letter + 48;
 		return (1);
 	}
-	//printf("place found : no\n");
 	return (0);
 }
+
+char	**put_on_map(int	id, int ***table_pos, char **map)
+{
+	map[table_pos[id][1][0]][table_pos[id][0][0]] = id_letter + 48;//map[y][x]
+	map[table_pos[id][1][1]][table_pos[id][0][1]] = id_letter + 48;
+	map[table_pos[id][1][2]][table_pos[id][0][2]] = id_letter + 48;
+	map[table_pos[id][1][3]][table_pos[id][0][3]] = id_letter + 48;
+	print_map(map, 5);
+	return (map);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

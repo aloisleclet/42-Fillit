@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 14:38:56 by aleclet           #+#    #+#             */
-/*   Updated: 2017/03/31 16:08:04 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/12 14:07:23 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ void	ft_putstr(char *s)
 {
 	while (*s++)
 		ft_putchar(*(s - 1));
-}
-
-int		ft_is_input(int argc)
-{
-	if (argc == 2)
-		return (1);
-	return (0);
 }
 
 int		ft_open_file(char *filename)

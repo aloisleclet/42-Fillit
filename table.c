@@ -6,9 +6,16 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:11 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/11 16:50:05 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/12 16:54:58 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//we transform the file in 2d table like this it's easier to test if it's a valid file
+//exemple :
+//table[0] = [....\n
+//			  .##.\n
+//			  .##.\n
+//			  ....\0];
 
 char	***ft_alloc_table(char ***table, int n)
 {
@@ -21,7 +28,7 @@ char	***ft_alloc_table(char ***table, int n)
 		return (NULL);
 	while ((n--))
 	{
-			table[n] = (char **)ft_alloc(sizeof(char**) * 5);
+		table[n] = (char **)ft_alloc(sizeof(char**) * 5);
 		while (y < 4)
 		{
 			table[n][y] = (char *)ft_alloc(sizeof(char*) * 5);
