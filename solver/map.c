@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_utils.c                                        :+:      :+:    :+:   */
+/*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/11 16:39:27 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/12 16:56:24 by aleclet          ###   ########.fr       */
+/*   Created: 2017/04/13 10:39:06 by aleclet           #+#    #+#             */
+/*   Updated: 2017/04/13 12:29:22 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,49 +70,78 @@ void	print_map(char **map, int n)
 		j++;
 		ft_putchar('\n');
 	}
+	ft_putchar('\n'); // to del
 }
 
 int id_letter = 16;// to del
 
-int		place_found(char **map, int pos_x[4], int pos_y[4], int translate_x, int translate_y)
+//int		*get_tetri_pos(int id) // to finish
+//{
+//	int	pos[2];
+//
+//	pos[0] = 0; // x
+//	pos[1] = 0; // y
+//
+//	
+//
+//	return (pos);
+//}
+
+int		is_place(char **map, int ***table_pos, int id, int x, int y)
 {
-	if (map[pos_y[0] + translate_y][pos_x[0] + translate_x] == '.' &&
-	map[pos_y[1] + translate_y][pos_x[1] + translate_x] == '.' &&
-	map[pos_y[2] + translate_y][pos_x[2] + translate_x] == '.' &&
-	map[pos_y[3] + translate_y][pos_x[3] + translate_x] == '.')
-	{
-		//write on map
-		id_letter++;
-		map[pos_y[0] + translate_y][pos_x[0] + translate_x] = id_letter + 48;//map[y][x]
-		map[pos_y[1] + translate_y][pos_x[1] + translate_x] = id_letter + 48;
-		map[pos_y[2] + translate_y][pos_x[2] + translate_x] = id_letter + 48;
-		map[pos_y[3] + translate_y][pos_x[3] + translate_x] = id_letter + 48;
-		return (1);
-	}
+	if (map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] == '.' &&
+	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] == '.' &&
+	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] == '.' &&
+	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] == '.')
+		return (1);	
 	return (0);
 }
 
-char	**put_on_map(int	id, int ***table_pos, char **map)
+char	**put_on_map(char **map, int ***table_pos, int id, int x, int y)
 {
-	map[table_pos[id][1][0]][table_pos[id][0][0]] = id_letter + 48;//map[y][x]
-	map[table_pos[id][1][1]][table_pos[id][0][1]] = id_letter + 48;
-	map[table_pos[id][1][2]][table_pos[id][0][2]] = id_letter + 48;
-	map[table_pos[id][1][3]][table_pos[id][0][3]] = id_letter + 48;
-	print_map(map, 5);
+	if (!is_place(map, table_pos, id, x, y))
+		return (map);// or return a signal
+	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id_letter + id + 49;//map[y][x]
+	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id_letter + id + 49;
+	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id_letter + id + 49;
+	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id_letter + id + 49;
 	return (map);
 }
 
+char	**remove_on_map(char **map, int size, int id)
+{
+	int		x;
+	int		y;
+	int		case_deleted;
 
+	x = 0;
+	y = 0;
+	case_deleted = 0;
+	while (y < size && case_deleted < 4)
+	{
+		while (x < size && case_deleted < 4)
+		{
+			if (map[y][x] == id_letter + id + 49)
+			{
+				map[y][x] = '.';
+				case_deleted++;
+			}
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	return (map);
+}
 
+char	**move_on_map(char **map, int size, int ***table_pos, int id, int x, int y)
+{
+	int		new_x;
+	int		new_y;
 
-
-
-
-
-
-
-
-
-
-
-
+	new_x = x;
+	new_y = y;
+	map = remove_on_map(map, size, id);
+	map = put_on_map(map, table_pos, id, new_x, new_y);
+	return (map);
+}

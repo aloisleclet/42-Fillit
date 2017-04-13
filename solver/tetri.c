@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tetri_utils.c                                      :+:      :+:    :+:   */
+/*   tetri.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/11 16:41:06 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/12 16:56:10 by aleclet          ###   ########.fr       */
+/*   Created: 2017/04/13 10:38:57 by aleclet           #+#    #+#             */
+/*   Updated: 2017/04/13 11:42:17 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int		***fill_table_pos(char ***table_test, int ***table_pos, int nb)
 	while ((nb--))
 	{
 		table_test_to_tetri_pos(table_test[nb], pos_x, pos_y);
+		i = 0;
 		while (i < 4)
 		{
 			table_pos[nb][0][i] = pos_x[i];
@@ -203,7 +204,9 @@ void	test(char ***table_test)
 	map = alloc_map(map, size);
 	table_pos = alloc_table_pos(size);
 	table_pos = fill_table_pos(table_test, table_pos, size);
-	map = put_on_map(1, table_pos, map);
+	map = put_on_map(map, table_pos, 3, 1, 1);
+	print_map(map, size);
+	map = remove_on_map(map, size, 3);
 	print_map(map, size);
 }
 
