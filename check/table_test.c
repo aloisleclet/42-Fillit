@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   table.c                                            :+:      :+:    :+:   */
+/*   table_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/13 10:38:46 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/13 10:58:00 by aleclet          ###   ########.fr       */
+/*   Created: 2017/04/14 15:31:52 by aleclet           #+#    #+#             */
+/*   Updated: 2017/04/14 16:01:33 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//we transform the file in 2d table like this it's easier to test if it's a valid file
+//we transform the file in 2d table like this it's easier to check if it's a valid file
 //exemple :
 //table[0] = [....\n
 //			  .##.\n
 //			  .##.\n
 //			  ....\0];
 
-char	***ft_alloc_table(char ***table, int n)
+char	***alloc_table_test(char ***table, int n)
 {
 	int		x;
 	int		y;
@@ -40,7 +40,7 @@ char	***ft_alloc_table(char ***table, int n)
 	return (table);
 }
 
-void	ft_free_table(char ***table, int n)
+void	free_table_test(char ***table, int n)
 {
 	int		i;
 
@@ -72,7 +72,7 @@ void	ft_manage_xyi(int *i, int *y, int *x, char c)
 	}
 }
 
-int		ft_fill_table(char ***table, char *filename)
+int		fill_table_test(char ***table, char *filename)
 {
 	int		fd;
 	int		x;

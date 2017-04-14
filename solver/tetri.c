@@ -6,74 +6,34 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:38:57 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/14 14:02:52 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 15:51:00 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void		translation(int pos_x[4], int pos_y[4])
+int		*get_tetri_pos(int id, char **map, int size, int new_pos[2])
 {
-	int		n;
-	int		origin_x;
-	int		origin_y;
+	int		x;
+	int		y;
 
-	n = 0;
-	origin_x = 4;
-	origin_y = pos_y[0];	
-	while (n < 4)
+	x = 0;
+	y = 0;
+	new_pos[0] = 0; // x
+	new_pos[1] = 0; // y
+	
+	while (y < size)
 	{
-		origin_x = (pos_x[n] < origin_x) ? pos_x[n] : origin_x;
-		n++;
-	}
-
-	n = 0;
-	while (n < 4)
-	{
-		pos_x[n] -= origin_x;
-		pos_y[n] -= origin_y;
-		n++;
-	}
-}
-
-void		table_test_to_tetri_pos(char **table_test, int pos_x[4], int pos_y[4]) //
-{
-	int		i;
-	int		j;
-	int		n;
-
-	i = 0;
-	j = 0;
-	n = 0;
-	while (j < 4)
-	{
-		while (i < 4)
+		while (x < size)
 		{
-			if (table_test[j][i] == '#')
+			if (map[y][x] == id + 45)
 			{
-				pos_x[n] = i;
-				pos_y[n] = j;
-				n++;
+				new_pos[0] = x;
+				new_pos[1] = y;
 			}
-			i++;
 		}
-		i = 0;
-		j++;
+		x = 0;
+		y++;
 	}
-	translation(pos_x, pos_y);
-}
-
-int		t_too_big(int pos_x[4], int pos_y[4], int size) // for doing what ?
-{
-	int		type;
-	int		tetri_size = 0;
-
-	type = check_type(pos_x, pos_y);
-	if (type == 22)
-		tetri_size = 2;
-	if (type == 23 || type == 32)
-		tetri_size = 3;
-	if (type == 14 || type == 41)
-		tetri_size = 4;
-	return (tetri_size > size);
+	return (new_pos);
 }
 
 int		tetri_exceed_map(int ***table_pos, int id, int x, int y, int size)
@@ -92,43 +52,83 @@ int		tetri_exceed_map(int ***table_pos, int id, int x, int y, int size)
 	return (0);
 }
 
-//===================================table pos utils
-
-int		***alloc_table_pos(int nb)
+int		add_tetri(char **map, int ***table_pos, int id, int new_pos[2], int size)
 {
-	int		***table_pos;
+	int		limit_exceed;
+	int		x;
+	int		y;
+	
+	x = new_pos[0];
+	y = new_pos[1];
+   	limit_exceed = tetri_exceed_map(table_pos, id, x, y, size);
 
-	table_pos = ft_alloc(sizeof(int***) * nb + 1);
-	while ((nb--))
-	{
-		table_pos[nb] = ft_alloc(sizeof(int**) * 2 + 1);
-		table_pos[nb][0] = ft_alloc(sizeof(int*) * 4 + 1);
-		table_pos[nb][1] = ft_alloc(sizeof(int*) * 4 + 1);
-	}
-	return (table_pos);
+	if ((limit_exceed != 0) || !is_place(map, table_pos, id, new_pos))
+		return (limit_exceed);
+	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id + 45;//map[y][x]
+	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id + 45;
+	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id + 45;
+	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id + 45;
+	return (0);
+	//map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id_letter + id + 49;//map[y][x]
 }
 
-int		***fill_table_pos(char ***table_test, int ***table_pos, int nb)
+int		del_tetri(char **map, int size, int id)
 {
-	int		i;
-	int		pos_x[4];
-	int		pos_y[4];
+	int		x;
+	int		y;
+	int		case_deleted;
 
-	i = 0;
-	while ((nb--))
+	x = 0;
+	y = 0;
+	case_deleted = 0;
+	while (y < size && case_deleted < 4)
 	{
-		table_test_to_tetri_pos(table_test[nb], pos_x, pos_y);
-		i = 0;
-		while (i < 4)
+		while (x < size && case_deleted < 4)
 		{
-			table_pos[nb][0][i] = pos_x[i];
-			table_pos[nb][1][i] = pos_y[i];
-			i++;
+			if (map[y][x] == id + 45)
+			{
+				map[y][x] = '.';
+				case_deleted++;
+			}
+			x++;
 		}
+		x = 0;
+		y++;
 	}
-	return (table_pos);
+	return (0);
 }
 
+int		move_tetri(char **map, int size, int ***table_pos, int id, int new_pos[2])
+{
+	int		x;
+	int		y;
+	
+	x = new_pos[0];
+	y = new_pos[1];
+
+	return (del_tetri(map, size, id) || add_tetri(map, table_pos, id, new_pos, size));
+}
+
+
+
+
+//================================================================================
+
+//int		t_too_big(int pos_x[4], int pos_y[4], int size)
+//{
+//	int		type;
+//	int		tetri_size = 0;
+//
+//	type = check_type(pos_x, pos_y);
+//	if (type == 22)
+//		tetri_size = 2;
+//	if (type == 23 || type == 32)
+//		tetri_size = 3;
+//	if (type == 14 || type == 41)
+//		tetri_size = 4;
+//	return (tetri_size > size);
+//}
+//
 //int		put_tetri_on_map(int pos_x[4], int pos_y[4], char **map, int size_map)
 //{
 //	int		translate_x;
@@ -208,15 +208,15 @@ void	test(char ***table_test)
 	table_pos = alloc_table_pos(size);
 	table_pos = fill_table_pos(table_test, table_pos, size);
 	//actions
-	put_on_map(map, table_pos, 3, init_pos, size);
+	add_tetri(map, table_pos, 3, init_pos, size);
 	print_map(map, size);//display
-	remove_on_map(map, size, 3);
+	del_tetri(map, size, 3);
 	print_map(map, size);//display
-	move_on_map(map, size, table_pos, 3, new_pos);
+	move_tetri(map, size, table_pos, 3, new_pos);
 	print_map(map, size);//display
 }
 
-int		ft_fillit(int argc, char *filename)
+int		fillit(int argc, char *filename)
 {
 	int		size;
 	char	***table_test;
@@ -226,15 +226,15 @@ int		ft_fillit(int argc, char *filename)
 	//======================check part================
 	if (argc != 2)
 		return (1);
-	if (ft_check_map(open(filename, O_RDONLY)))
+	if (check_map(open(filename, O_RDONLY)))
 		return (1);
 //	printf("input ok\n");
-	if (ft_size(filename, &size))
+	if (get_size_map(filename, &size))
 		return (1);
 //	printf("size ok\n");
-	table_test = ft_alloc_table(table_test, size);
+	table_test = alloc_table_test(table_test, size);
 //	printf("alloc table ok\n");
-	if (ft_fill_table(table_test, filename))
+	if (fill_table_test(table_test, filename))
 		return (1);
 //	printf("fill table ok\n");
 	if (check_all(table_test, size))
@@ -244,6 +244,6 @@ int		ft_fillit(int argc, char *filename)
 	test(table_test);
 	//solve(table, size);
 //	printf("solve ok\n");
-	ft_free_table(table_test, size);
+	free_table_test(table_test, size);
 	return (0);
 }

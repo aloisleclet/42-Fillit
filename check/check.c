@@ -6,54 +6,11 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 09:16:08 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/12 15:27:01 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 15:42:40 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-//int		ft_check_engine(char c, int *x, int *y, int *nb_case)
-//{ 
-//	int 	m;
-//
-//	m = 0;
-//	*x += 1;
-//	printf("%c", c);
-//	if (c == '\n' && ((*x == 5) || ((*x == 1) && (*y % 5) == 0)))
-//	{
-//	//	printf("1\n");
-//	}
-//	else if (c == '.' && (*x != 5) && (*y % 5) != 0)
-//	{
-//	//	printf("2\n");
-//	}
-//	else if (c == '#' && (*x != 5) && ((*y % 5) != 0))
-//	{
-//		*nb_case += 1;
-//	//	printf("3\n");
-//	//	printf("case %d\n", *nb_case);
-//	}
-//	else
-//	{
-//	//	printf("error buf[0]: [%c], x: %d, y: %d\n", c, *x, *y);
-//		return (1);
-//	}
-//	if (*x == 5 || (*x == 1 && c == '\n') || *y == 4) //end of line or end of tetri
-//	{
-//		if (*x == 1) //end of tetri
-//		{
-//			if (*nb_case != 4)
-//				return (1);
-//			*nb_case = (*nb_case == 4) ? 0 : *nb_case;
-//		}
-//		*x = 0;
-//		*y += 1;
-//	}
-//	m = (*x) * (*y);
-//	//printf("tot: %d\n", m);
-//	return (0);
-//}
-
-int		ft_check_engine(char **str)
+int		check_engine(char **str)
 {
 	int		i;
 	int		nb_case;
@@ -74,7 +31,7 @@ int		ft_check_engine(char **str)
 	return (nb_case == 4);
 }
 
-int		ft_check_map(int fd)
+int		check_map(int fd)
 {
 	char	buf[1];
 	int		i;
@@ -92,7 +49,7 @@ int		ft_check_map(int fd)
 //		printf("%c", buf[0]);
 		if (i == 20)
 		{
-			if (!ft_check_engine(&s))
+			if (!check_engine(&s))
 				return (1);
 			nbt++;
 		}
@@ -103,30 +60,6 @@ int		ft_check_map(int fd)
 	}
 //	printf("[%c] %d\n", s[i], i);
 	return ((s[i] == '\n' && i == 21) || !(i == 20 || i == 21));
-}
-
-int		ft_size(char *filename, int *n) // to do what ?
-{
-	int		fd;
-	char	buf[1];
-	int		y;
-	int		x;
-
-	y = 0;
-	x = 0;
-	fd = ft_open_file(filename);
-	*n = 0;
-	while (read(fd, buf, 1))
-	{
-		x++;
-		if (x == 5)
-		{
-			x = 0;
-			y++;
-		}
-	}
-	*n = y / 4;
-	return (0);
 }
 
 int		check_type(int pos_x[4], int pos_y[4])
