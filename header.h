@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/14 16:02:04 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 16:20:21 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int		tetri_exceed_map(int ***table_pos, int id, int x, int y, int size);
 #include "solver/table_pos.c"
 #include "check/table_test.c"
 #include "solver/tetri.c"
+#include "solver/solver.c"
 
 #endif
