@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:38:57 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/13 11:42:17 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 14:02:52 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,20 @@ int		t_too_big(int pos_x[4], int pos_y[4], int size) // for doing what ?
 	return (tetri_size > size);
 }
 
-int		tetri_exceed_map(int pos_x[4], int pos_y[4], int translate_x, int translate_y, int size_map)
+int		tetri_exceed_map(int ***table_pos, int id, int x, int y, int size)
 {
 	int		i;
 
 	i = 0;
-	//printf("limit map\n");	
 	while (i < 4)
 	{
-		if ((pos_x[i] + translate_x) >= size_map)
-		{
-			return (0); //limit x
-		}
-		else if ((pos_y[i] + translate_y) >= size_map)
-		{
-			return (-1); //limit y
-		}
+		if ((table_pos[id][0][i] + x) >= size)
+			return (1); //limit x
+		else if ((table_pos[id][1][i] + y) >= size)
+			return (2); //limit y
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 //===================================table pos utils
@@ -198,24 +193,35 @@ void	test(char ***table_test)
 	int		***table_pos;
 	int		size;
 	char	**map;
+	int		new_pos[2];	
+	int		init_pos[2];	
 
+	init_pos[0] = 0;
+	init_pos[1] = 0;
+	new_pos[0] = 2;
+	new_pos[1] = 2;
 	size = 5;
+	//map init
 	map = NULL;
 	map = alloc_map(map, size);
+	//table_pos init
 	table_pos = alloc_table_pos(size);
 	table_pos = fill_table_pos(table_test, table_pos, size);
-	map = put_on_map(map, table_pos, 3, 1, 1);
-	print_map(map, size);
-	map = remove_on_map(map, size, 3);
-	print_map(map, size);
+	//actions
+	put_on_map(map, table_pos, 3, init_pos, size);
+	print_map(map, size);//display
+	remove_on_map(map, size, 3);
+	print_map(map, size);//display
+	move_on_map(map, size, table_pos, 3, new_pos);
+	print_map(map, size);//display
 }
 
 int		ft_fillit(int argc, char *filename)
 {
-	int		n;
+	int		size;
 	char	***table_test;
 
-	n = 0;
+	size = 0;
 	table_test = NULL;
 	//======================check part================
 	if (argc != 2)
@@ -223,21 +229,21 @@ int		ft_fillit(int argc, char *filename)
 	if (ft_check_map(open(filename, O_RDONLY)))
 		return (1);
 //	printf("input ok\n");
-	if (ft_size(filename, &n))
+	if (ft_size(filename, &size))
 		return (1);
 //	printf("size ok\n");
-	table_test = ft_alloc_table(table_test, n);
+	table_test = ft_alloc_table(table_test, size);
 //	printf("alloc table ok\n");
 	if (ft_fill_table(table_test, filename))
 		return (1);
 //	printf("fill table ok\n");
-	if (check_all(table_test, n))
+	if (check_all(table_test, size))
 		return (1);
 	printf("check_all ok\n");
 	//======================solve part================
 	test(table_test);
-	//solve(table, n);
+	//solve(table, size);
 //	printf("solve ok\n");
-	ft_free_table(table_test, n);
+	ft_free_table(table_test, size);
 	return (0);
 }

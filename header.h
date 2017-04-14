@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 09:52:03 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/13 10:28:34 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 11:49:35 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@
 //int		check_all(char ***table, int n);
 
 void	table_test_to_tetri_pos(char **map, int pos_x[4], int pos_y[4]);
+int		tetri_exceed_map(int ***table_pos, int id, int x, int y, int size);
 
 #include <stdio.h>
 

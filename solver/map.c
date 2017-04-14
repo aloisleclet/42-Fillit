@@ -6,28 +6,28 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:39:06 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/13 12:29:22 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/04/14 13:47:10 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	**alloc_map(char **map, int n) //partir de la max size map
+char	**alloc_map(char **map, int size) //partir de la max size map
 {
 	int		j;
 	int		i;
 
 	j = 0;
 	i = 0;
-	map = (char**)ft_alloc(sizeof(char**) * (n + 1));
-	while (j < n)
+	map = (char**)ft_alloc(sizeof(char**) * (size + 1));
+	while (j < size)
 	{
-		map[j] = (char*)ft_alloc(sizeof(char*) * (n + 1));
+		map[j] = (char*)ft_alloc(sizeof(char*) * (size + 1));
 		j++;
 	}
 	j = 0;
 	i = 0;
-	while (j < n)
+	while (j < size)
 	{
-		while (i < n)
+		while (i < size)
 		{
 			map[j][i] = '.';
 			i++;	
@@ -38,12 +38,12 @@ char	**alloc_map(char **map, int n) //partir de la max size map
 	return (map);
 }
 
-void	free_map(char **map, int n)
+void	free_map(char **map, int size)
 {
 	int		i;
 
 	i = 0;
-	while (i < n)
+	while (i < size)
 	{
 		ft_free(map[i]);
 		i++;
@@ -51,7 +51,7 @@ void	free_map(char **map, int n)
 	free(map);
 }
 
-void	print_map(char **map, int n)
+void	print_map(char **map, int size)
 {
 	int		j;
 	int		i;
@@ -59,9 +59,9 @@ void	print_map(char **map, int n)
 	i = 0;
 	j = 0;
 
-	while (j < n)
+	while (j < size)
 	{
-		while (i < n)
+		while (i < size)
 		{
 			ft_putchar(map[j][i]);
 			i++;
@@ -75,40 +75,68 @@ void	print_map(char **map, int n)
 
 int id_letter = 16;// to del
 
-//int		*get_tetri_pos(int id) // to finish
-//{
-//	int	pos[2];
-//
-//	pos[0] = 0; // x
-//	pos[1] = 0; // y
-//
-//	
-//
-//	return (pos);
-//}
-
-int		is_place(char **map, int ***table_pos, int id, int x, int y)
+int		*get_tetri_pos(int id, char **map, int size, int new_pos[2])
 {
+	int		x;
+	int		y;	
+
+	x = 0;
+	y = 0;
+	new_pos[0] = 0; // x
+	new_pos[1] = 0; // y
+	
+	while (y < size)
+	{
+		while (x < size)
+		{
+			if (map[y][x] == id + 45)
+			{
+				new_pos[0] = x;
+				new_pos[1] = y;
+			}
+		}
+		x = 0;
+		y++;
+	}
+	return (new_pos);
+}
+
+int		is_place(char **map, int ***table_pos, int id, int new_pos[2])
+{
+	int		x;
+	int		y;
+	
+	x = new_pos[0];
+	y = new_pos[1];
 	if (map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] == '.' &&
 	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] == '.' &&
 	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] == '.' &&
 	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] == '.')
-		return (1);	
+		return (1);
 	return (0);
 }
 
-char	**put_on_map(char **map, int ***table_pos, int id, int x, int y)
+int		put_on_map(char **map, int ***table_pos, int id, int new_pos[2], int size)
 {
-	if (!is_place(map, table_pos, id, x, y))
-		return (map);// or return a signal
-	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id_letter + id + 49;//map[y][x]
-	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id_letter + id + 49;
-	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id_letter + id + 49;
-	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id_letter + id + 49;
-	return (map);
+	int		limit_exceed;
+	int		x;
+	int		y;
+	
+	x = new_pos[0];
+	y = new_pos[1];
+   	limit_exceed = tetri_exceed_map(table_pos, id, x, y, size);
+
+	if ((limit_exceed != 0) || !is_place(map, table_pos, id, new_pos))
+		return (limit_exceed);
+	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id + 45;//map[y][x]
+	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id + 45;
+	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id + 45;
+	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id + 45;
+	return (0);
+	//map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id_letter + id + 49;//map[y][x]
 }
 
-char	**remove_on_map(char **map, int size, int id)
+int		remove_on_map(char **map, int size, int id)
 {
 	int		x;
 	int		y;
@@ -121,7 +149,7 @@ char	**remove_on_map(char **map, int size, int id)
 	{
 		while (x < size && case_deleted < 4)
 		{
-			if (map[y][x] == id_letter + id + 49)
+			if (map[y][x] == id + 45)
 			{
 				map[y][x] = '.';
 				case_deleted++;
@@ -131,17 +159,16 @@ char	**remove_on_map(char **map, int size, int id)
 		x = 0;
 		y++;
 	}
-	return (map);
+	return (0);
 }
 
-char	**move_on_map(char **map, int size, int ***table_pos, int id, int x, int y)
+int		move_on_map(char **map, int size, int ***table_pos, int id, int new_pos[2])
 {
-	int		new_x;
-	int		new_y;
+	int		x;
+	int		y;
+	
+	x = new_pos[0];
+	y = new_pos[1];
 
-	new_x = x;
-	new_y = y;
-	map = remove_on_map(map, size, id);
-	map = put_on_map(map, table_pos, id, new_x, new_y);
-	return (map);
+	return (remove_on_map(map, size, id) || put_on_map(map, table_pos, id, new_pos, size));
 }
