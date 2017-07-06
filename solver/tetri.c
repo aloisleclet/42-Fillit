@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 10:38:57 by aleclet           #+#    #+#             */
-/*   Updated: 2017/04/14 16:19:32 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/06/01 15:55:33 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int		add_tetri(char **map, int ***table_pos, int id, int new_pos[2], int size)
 
 	if ((limit_exceed != 0) || !is_place(map, table_pos, id, new_pos))
 		return (limit_exceed);
-	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id + 45;//map[y][x]
-	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id + 45;
-	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id + 45;
-	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id + 45;
+	map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id + 65;//map[y][x]
+	map[table_pos[id][1][1] + y][table_pos[id][0][1] + x] = id + 65;
+	map[table_pos[id][1][2] + y][table_pos[id][0][2] + x] = id + 65;
+	map[table_pos[id][1][3] + y][table_pos[id][0][3] + x] = id + 65;
 	return (0);
 	//map[table_pos[id][1][0] + y][table_pos[id][0][0] + x] = id_letter + id + 49;//map[y][x]
 }
@@ -85,7 +85,7 @@ int		del_tetri(char **map, int size, int id)
 	{
 		while (x < size && case_deleted < 4)
 		{
-			if (map[y][x] == id + 45)
+			if (map[y][x] == id + 65)
 			{
 				map[y][x] = '.';
 				case_deleted++;
