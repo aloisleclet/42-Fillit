@@ -1,4 +1,2 @@
-Fillit
-======
-
-A simple tetriminos puzzle.
+Minimal version of fillit
+=========================
