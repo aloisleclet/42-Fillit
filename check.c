@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/08 12:20:59 by aleclet           #+#    #+#             */
-/*   Updated: 2017/07/08 15:28:37 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/07/08 16:20:10 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,15 @@ int					check(char *str)
 	i = 0;
 	while (i == 0 || str[i - 1] != '\0')
 	{
-		ft_putnbr(i);
 		if (i == 0 || str[i - 1] == '\n')
 		{
-			ft_putstr("ok");
 			if (!check_tet(&str[i]) && !check_link(&str[i]))
-			{
-				ft_putstr("out 1");
 				return (0);
-			}
 		}
 		else if (str[i - 1] != '\0')
-		{
-			ft_putstr("out 2");
 			return (0);
-		}
 		if (i == 0 || str[i - 1] != '\0')
 			i += 21;
 	}
-	ft_putstr("out 3");
 	return (1);
 }

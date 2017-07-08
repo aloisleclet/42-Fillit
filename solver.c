@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   solver.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aleclet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/06 11:12:33 by aleclet           #+#    #+#             */
-/*   Updated: 2017/07/08 16:08:02 by aleclet          ###   ########.fr       */
+/*   Created: 2017/07/08 16:27:14 by aleclet           #+#    #+#             */
+/*   Updated: 2017/07/08 16:54:27 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <fcntl.h>
-# include <unistd.h>
-# include "Libft/libft.h"
+int					solver(char *str)
+{
+	int				size;
 
-char		*get_file(char *filename);
-int			check(char *tet);
-char		*epur(char *str);
+	size = ft_strlen(str) / 4;
+	return (map);
+}
