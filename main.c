@@ -6,7 +6,7 @@
 /*   By: aleclet <aleclet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 11:12:30 by aleclet           #+#    #+#             */
-/*   Updated: 2017/07/08 12:03:29 by aleclet          ###   ########.fr       */
+/*   Updated: 2017/07/08 14:29:42 by aleclet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int				main(int ac, char **av)
 		ft_putstr("error get\n");
 		return (0);
 	}
-/*	if (!check_error(tet))
+	if (!check(tet))
 	{
 		ft_putstr("error check\n");
 		return (0);
 	}
-	if (!epur(tet))
+/*	if (!epur(tet))
 	{
 		ft_putstr("error epur\n");
 		return (0);
